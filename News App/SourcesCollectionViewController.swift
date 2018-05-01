@@ -44,6 +44,45 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
         print(biaser.uniqueID)
         // Initalizing database columns' initial values
         UserDefaults.standard.set(0, forKey: "NumArticleClicked")
+      
+      
+      self.ref?.child(biaser.uniqueID).child("Expire").child("Day").observeSingleEvent(of: .value, with: {(DataSnapshot) in
+        // Get user value
+        let value = DataSnapshot.value as? Int
+        //print("Value: \(DataSnapshot.value)")
+        
+        //Check if intervention date exists
+        if(value != nil){
+          if (value != 0){
+            let date = Date()
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: date)
+            
+            if (value == day){
+              
+              let vc = self.storyboard?.instantiateViewController(withIdentifier: "over")
+              self.ref?.child(biaser.uniqueID).child("Expire").child("Day").setValue(33)
+              self.navigationController?.present(vc!, animated: true, completion: nil)
+            }
+            else{
+              if(value == 33){
+                
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "over")
+               
+                self.navigationController?.present(vc!, animated: true, completion: nil)
+              }
+              
+              print("Not the intervention date")
+              
+            }
+          }
+          else{
+            print("Intervention has already happened")
+          }
+        }
+      }) { (error) in
+        print(error.localizedDescription)
+      }
         
         var dateToday = UserDefaults.standard.string(forKey: "currentDate")
         let currentDate = getCurrentDate()
@@ -85,6 +124,105 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
         }
         
         else if (biaser.versionType == 3) { // Bias with message
+          
+          self.ref?.child(biaser.uniqueID).child("Intervention").child("Day").observeSingleEvent(of: .value, with: {(DataSnapshot) in
+            // Get user value
+            let value = DataSnapshot.value as? Int
+            //print("Value: \(DataSnapshot.value)")
+            
+            //Check if intervention date exists
+            if(value != nil){
+              if (value != 0){
+                let date = Date()
+                let calendar = Calendar.current
+                let day = calendar.component(.day, from: date)
+                
+                if (value == day){
+                  self.ref?.child(biaser.uniqueID).child("Intervention").child("Day").setValue(0)
+                  self.startTime = Date().timeIntervalSinceReferenceDate
+                  
+                  self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateCounterforMessage1), userInfo: nil, repeats: true)
+                  self.showMessage1(title: "About this App!", message: "Most news aggregator algorithms, like the kind used in this app, track your behavior. They then use this information to guide you toward news articles that reflect your own ideological preferences. \n Why is this a problem?")
+                  print("It is the intervention date")
+                }
+                else{
+                  
+                  print("Not the intervention date")
+                  
+                }
+              }
+              else{
+                print("Intervention has already happened")
+              }
+            }
+              
+              //create date if intervention date does not exist
+            else{
+              let dates = Date()
+              let calendar = Calendar.current
+              var day = calendar.component(.day, from: dates) + 10
+              var month = calendar.component(.month, from: dates)
+              var tday = calendar.component(.day, from: dates) + 20
+              var tmonth = calendar.component(.month, from: dates)
+              
+              
+              
+              //Check if even or odd month
+              let cMonth = month % 2
+              print("Checker: \(cMonth)")
+              if(cMonth == 0){
+                if(month == 2){
+                  if(day > 28){
+                    day = day - 28
+                    month += 1
+                  }
+                  if(tday > 28){
+                    tday = tday - 28
+                    tmonth += 1
+                  }
+                }
+                else{
+                  if(day > 30){
+                    day = day - 30
+                    month += 1
+                    print("Even")
+                  }
+                  if(tday > 30){
+                    tday = tday - 30
+                    tmonth += 1
+                    print("Even")
+                  }
+                }
+              }
+              else{
+                if(day > 31){
+                  day = day - 31
+                  month += 1
+                  print("Odd")
+                }
+                if(tday > 31){
+                  tday = tday - 31
+                  tmonth += 1
+                  print("Odd")
+                }
+              }
+              
+              self.ref?.child(biaser.uniqueID).child("Expire").child("Day").setValue(tday)
+              self.ref?.child(biaser.uniqueID).child("Expire").child("Month").setValue(tmonth)
+              self.ref?.child(biaser.uniqueID).child("Intervention").child("Day").setValue(day)
+              self.ref?.child(biaser.uniqueID).child("Intervention").child("Month").setValue(month)
+              let started = self.getDate()
+              self.ref?.child(biaser.uniqueID).child("Intervention").child("Started").setValue(started)
+              print("Day: \(day)")
+              print("Month: \(month)")
+              print("date: \(dates)")
+            }
+            
+            
+          }) { (error) in
+            print(error.localizedDescription)
+          }
+          
             if (newDay){
                 biaser.implementBiasing()
                 let daynumber = UserDefaults.standard.integer(forKey: "DayNumber")

@@ -162,7 +162,7 @@ class ArticleTableViewController: UITableViewController {
         var urlRequest = URLRequest(url: URL(string: "https://api.newsapi.aylien.com/api/v1/stories?categories.taxonomy=iptc-subjectcode&categories.confident=true&categories.id%5B%5D=11000000&media.images.count.min=1&media.videos.count.max=0&source.name%5B%5D=" + sourceName.replacingOccurrences(of: " ", with: "%20") + "&cluster=false&cluster.algorithm=lingo&sort_by=recency&sort_direction=desc&cursor=*&per_page=25")!)
         
 
-        let headerFields = ["X-AYLIEN-NewsAPI-Application-ID" : "65d8679d", "X-AYLIEN-NewsAPI-Application-Key" : "5e2739af5aa4d8d25e3b16ad75092fe8"] as Dictionary<String, String>
+        let headerFields = ["X-AYLIEN-NewsAPI-Application-ID" : "97e0b0db", "X-AYLIEN-NewsAPI-Application-Key" : "c6c27713ec5faac3cccb1144520ec013"] as Dictionary<String, String>
         urlRequest.allHTTPHeaderFields = headerFields
 
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
