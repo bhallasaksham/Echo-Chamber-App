@@ -145,11 +145,6 @@ class ArticleTableViewController: UITableViewController {
             storyDisplayViewController.articlePos = articlePos
             storyDisplayViewController.articles = articles
         }
-        
-        else if (segue.identifier == "backToSourceViewController") {
-            let sourcesCollectionViewController = segue.destination as! SourcesCollectionViewController
-            sourcesCollectionViewController.sourceOnlytimerOn = sourceOnlyTimerOn
-        }
     }
     
     

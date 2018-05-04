@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ijv-YA-6vt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ijv-YA-6vt">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="GillSans.ttc">
-            <string>GillSans</string>
-            <string>GillSans-BoldItalic</string>
-            <string>GillSans-Light</string>
-            <string>GillSans-SemiBold</string>
-        </array>
-        <array key="MarkerFeltThin.ttf">
-            <string>MarkerFelt-Thin</string>
-        </array>
-        <array key="MarkerFeltWide.ttf">
-            <string>MarkerFelt-Wide</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Sources-->
         <scene sceneID="lSu-dp-byZ">
@@ -36,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FcK-qU-Oyi">
-                                <rect key="frame" x="20" y="20" width="374" height="716"/>
+                                <rect key="frame" x="20" y="64" width="374" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yLv-ii-Mc8">
                                     <size key="itemSize" width="100" height="100"/>
@@ -89,8 +76,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="FcK-qU-Oyi" id="5j1-R5-65a"/>
-                        <segue destination="NwK-6Z-oWR" kind="showDetail" identifier="toArticleTableViewController" action="showViewController:sender:" id="7Ia-wL-vOJ"/>
                         <segue destination="7ig-6h-B8I" kind="show" identifier="over" id="DJJ-uO-1nG"/>
+                        <segue destination="NwK-6Z-oWR" kind="show" identifier="toArticleTableViewController" id="38C-8W-WRk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n9G-Ob-AFF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -114,10 +101,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YRq-LC-nu9">
-                                            <rect key="frame" x="8" y="11" width="189" height="109"/>
+                                            <rect key="frame" x="20" y="14" width="165" height="103"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqi-c3-ErN">
-                                            <rect key="frame" x="205" y="11" width="193" height="89.333333333333329"/>
+                                            <rect key="frame" x="193" y="14" width="193" height="83.666666666666671"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="193" id="Nyl-iE-aB7"/>
                                             </constraints>
@@ -126,7 +113,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nmd-xI-B3u">
-                                            <rect key="frame" x="205" y="97" width="209" height="20"/>
+                                            <rect key="frame" x="193" y="100" width="221" height="20"/>
                                             <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                             <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -164,8 +151,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="articleTableView" destination="vH2-sJ-H2S" id="L1V-kZ-0Cs"/>
-                        <segue destination="VGg-R2-Ijz" kind="show" identifier="toStoryDisplayViewController" id="X1o-X6-ajC"/>
-                        <segue destination="ulz-tB-ZnC" kind="show" identifier="backToSourceViewController" id="nH5-dV-euf"/>
+                        <segue destination="VGg-R2-Ijz" kind="show" identifier="toStoryDisplayViewController" id="Hd6-VE-c8k"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tUS-sQ-lgg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -185,7 +171,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ls-c3-jDb">
-                                <rect key="frame" x="-16" y="-20" width="446" height="746"/>
+                                <rect key="frame" x="-16" y="24" width="446" height="702"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x5i-1O-Hzv">
                                         <rect key="frame" x="20" y="20" width="375" height="231"/>
@@ -244,7 +230,7 @@
                                 </constraints>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbL-xi-6JV">
-                                <rect key="frame" x="20" y="287" width="374" height="66"/>
+                                <rect key="frame" x="20" y="351" width="374" height="66"/>
                                 <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -403,7 +389,4 @@
     <resources>
         <image name="background" width="1000" height="1498"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="nH5-dV-euf"/>
-    </inferredMetricsTieBreakers>
 </document>

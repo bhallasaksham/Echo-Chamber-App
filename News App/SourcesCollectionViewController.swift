@@ -71,14 +71,52 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
                
                 self.navigationController?.present(vc!, animated: true, completion: nil)
               }
-              
-              print("Not the intervention date")
-              
             }
           }
           else{
             print("Intervention has already happened")
           }
+        }
+        else{
+          let dates = Date()
+          let calendar = Calendar.current
+          var tday = calendar.component(.day, from: dates) + 20
+          var tmonth = calendar.component(.month, from: dates)
+          
+          
+          
+          //Check if even or odd month
+          let cMonth = tmonth % 2
+          print("Checker: \(cMonth)")
+          if(cMonth == 0){
+            if(tmonth == 2){
+              if(tday > 28){
+                tday = tday - 28
+                tmonth += 1
+              }
+            }
+            else{
+            
+              if(tday > 30){
+                tday = tday - 30
+                tmonth += 1
+                print("Even")
+              }
+            }
+          }
+          else{
+         
+            if(tday > 31){
+              tday = tday - 31
+              tmonth += 1
+              print("Odd")
+            }
+          }
+          
+          self.ref?.child(biaser.uniqueID).child("Expire").child("Day").setValue(tday)
+          self.ref?.child(biaser.uniqueID).child("Expire").child("Month").setValue(tmonth)
+
+          print("date: \(dates)")
         }
       }) { (error) in
         print(error.localizedDescription)
@@ -162,8 +200,7 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
               let calendar = Calendar.current
               var day = calendar.component(.day, from: dates) + 10
               var month = calendar.component(.month, from: dates)
-              var tday = calendar.component(.day, from: dates) + 20
-              var tmonth = calendar.component(.month, from: dates)
+             
               
               
               
@@ -176,10 +213,7 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
                     day = day - 28
                     month += 1
                   }
-                  if(tday > 28){
-                    tday = tday - 28
-                    tmonth += 1
-                  }
+                  
                 }
                 else{
                   if(day > 30){
@@ -187,11 +221,7 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
                     month += 1
                     print("Even")
                   }
-                  if(tday > 30){
-                    tday = tday - 30
-                    tmonth += 1
-                    print("Even")
-                  }
+                  
                 }
               }
               else{
@@ -200,15 +230,10 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
                   month += 1
                   print("Odd")
                 }
-                if(tday > 31){
-                  tday = tday - 31
-                  tmonth += 1
-                  print("Odd")
-                }
+               
               }
               
-              self.ref?.child(biaser.uniqueID).child("Expire").child("Day").setValue(tday)
-              self.ref?.child(biaser.uniqueID).child("Expire").child("Month").setValue(tmonth)
+            
               self.ref?.child(biaser.uniqueID).child("Intervention").child("Day").setValue(day)
               self.ref?.child(biaser.uniqueID).child("Intervention").child("Month").setValue(month)
               let started = self.getDate()
