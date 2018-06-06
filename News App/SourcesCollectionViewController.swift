@@ -11,6 +11,10 @@ import Firebase
 
 // Global Variables
 let biaser = BiasingMetaData()
+var savethis = -1;
+var saveInterventionmonth = -1;
+var saveExpiremonth = -1;
+var saveExpiredate = -1;
 
 class SourcesCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -44,7 +48,33 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
         print(biaser.uniqueID)
         // Initalizing database columns' initial values
         UserDefaults.standard.set(0, forKey: "NumArticleClicked")
-      
+      self.ref?.child(biaser.uniqueID).child("Intervention").child("Month").observeSingleEvent(of: .value, with: {(DataSnapshot) in
+        
+        let originMonth = DataSnapshot.value as? Int
+        if(originMonth != nil){
+          
+          saveInterventionmonth = originMonth!
+          
+        }
+      })
+      self.ref?.child(biaser.uniqueID).child("Expire").child("Month").observeSingleEvent(of: .value, with: {(DataSnapshot) in
+        
+        let originMonth = DataSnapshot.value as? Int
+        if(originMonth != nil){
+          
+          saveExpiremonth = originMonth!
+          
+        }
+      })
+      self.ref?.child(biaser.uniqueID).child("Expire").child("Day").observeSingleEvent(of: .value, with: {(DataSnapshot) in
+        
+        let originMonth = DataSnapshot.value as? Int
+        if(originMonth != nil){
+          
+          saveExpiredate = originMonth!
+          
+        }
+      })
       
       self.ref?.child(biaser.uniqueID).child("Expire").child("Day").observeSingleEvent(of: .value, with: {(DataSnapshot) in
         // Get user value
@@ -57,19 +87,23 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
             let date = Date()
             let calendar = Calendar.current
             let day = calendar.component(.day, from: date)
+            let month = calendar.component(.month, from: date)
             
-            if (value == day){
-              
-              let vc = self.storyboard?.instantiateViewController(withIdentifier: "over")
-              self.ref?.child(biaser.uniqueID).child("Expire").child("Day").setValue(33)
-              self.navigationController?.present(vc!, animated: true, completion: nil)
-            }
-            else{
-              if(value == 33){
+            
+            if(month == saveExpiremonth){
+              if (value! <= day){
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "over")
-               
+                self.ref?.child(biaser.uniqueID).child("Expire").child("Day").setValue(-1)
                 self.navigationController?.present(vc!, animated: true, completion: nil)
+              }
+              else{
+                if(value == -1){
+                  
+                  let vc = self.storyboard?.instantiateViewController(withIdentifier: "over")
+                 
+                  self.navigationController?.present(vc!, animated: true, completion: nil)
+                }
               }
             }
           }
@@ -174,19 +208,35 @@ class SourcesCollectionViewController: UIViewController, UICollectionViewDelegat
                 let date = Date()
                 let calendar = Calendar.current
                 let day = calendar.component(.day, from: date)
+                let month = calendar.component(.month, from: date)
+                print("Expire Date: \(saveExpiredate)")
+                print("Today: \(day)")
+                print("Intervention date: \(value!)")
                 
-                if (value == day){
-                  self.ref?.child(biaser.uniqueID).child("Intervention").child("Day").setValue(0)
-                  self.startTime = Date().timeIntervalSinceReferenceDate
-                  
-                  self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateCounterforMessage1), userInfo: nil, repeats: true)
-                  self.showMessage1(title: "About this App!", message: "Most news aggregator algorithms, like the kind used in this app, track your behavior. They then use this information to guide you toward news articles that reflect your own ideological preferences. \n Why is this a problem?")
-                  print("It is the intervention date")
+                if(month == saveInterventionmonth)
+                {
+                  if(day <= saveExpiredate)
+                  {
+                    if (value! <= day)
+                    {
+                      self.ref?.child(biaser.uniqueID).child("Intervention").child("Day").setValue(0)
+                      self.startTime = Date().timeIntervalSinceReferenceDate
+                      
+                      self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateCounterforMessage1), userInfo: nil, repeats: true)
+                      self.showMessage1(title: "About this App!", message: "Most news aggregator algorithms, like the kind used in this app, track your behavior. They then use this information to guide you toward news articles that reflect your own ideological preferences. \n Why is this a problem?")
+                      print("It is the intervention date")
+                    }
+                    else
+                    {
+                      print("Not the intervention date")
+                    }
+                  }
+                  else{
+                      print("Past Expire date")
+                    }
                 }
                 else{
-                  
-                  print("Not the intervention date")
-                  
+                  print("Not the right month")
                 }
               }
               else{
